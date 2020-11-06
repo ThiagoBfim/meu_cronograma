@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:meu_cronograma/app/shared/background_box_decoration.dart';
+import 'package:meu_cronograma/app/shared/widgets/logo_widget.dart';
 
 import '../../app_module.dart';
 import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
-  final String title;
-
-  const HomePage({Key key, this.title = "Home"}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -19,17 +18,32 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(AppModule.NEW_CURSO))
-        ],
-      ),
-      body: Column(
-        children: <Widget>[],
+      body: Container(
+        decoration: BackgroundBoxDecoration.getBoxDecoration(),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              LogoWidget(),
+              Container(),
+              MaterialButton(
+                padding: const EdgeInsets.all(10.0),
+                color: Colors.black54,
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(30.0)),
+                onPressed: () =>
+                    Navigator.pushNamed(context, AppModule.NEW_CURSO),
+                child: Text(
+                  'Adicionar novo curso',
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+              // ),
+              // )
+            ],
+          ),
+        ),
       ),
     );
   }
