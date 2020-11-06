@@ -41,5 +41,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Only for demo purpose of the app</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Only for demo purpose of the app</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Only for demo purpose of the app</string>
 </dict>
 </plist>

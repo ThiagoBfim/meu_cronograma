@@ -39,6 +39,21 @@ mixin _$CursoModel on BaseCursoModel, Store {
     });
   }
 
+  final _$logoImageAtom = Atom(name: 'BaseCursoModel.logoImage');
+
+  @override
+  Image get logoImage {
+    _$logoImageAtom.reportRead();
+    return super.logoImage;
+  }
+
+  @override
+  set logoImage(Image value) {
+    _$logoImageAtom.reportWrite(value, super.logoImage, () {
+      super.logoImage = value;
+    });
+  }
+
   final _$BaseCursoModelActionController =
       ActionController(name: 'BaseCursoModel');
 
@@ -65,10 +80,22 @@ mixin _$CursoModel on BaseCursoModel, Store {
   }
 
   @override
+  dynamic setLogoImage(Image logoImage) {
+    final _$actionInfo = _$BaseCursoModelActionController.startAction(
+        name: 'BaseCursoModel.setLogoImage');
+    try {
+      return super.setLogoImage(logoImage);
+    } finally {
+      _$BaseCursoModelActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 nome: ${nome},
-descricao: ${descricao}
+descricao: ${descricao},
+logoImage: ${logoImage}
     ''';
   }
 }

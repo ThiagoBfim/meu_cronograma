@@ -1,10 +1,14 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meu_cronograma/app/repositories/interfaces/curso_repository_interface.dart';
 
+import '../../app_widget.dart';
 import 'models/curso_model.dart';
 
 class CursoForm extends StatefulWidget {
@@ -22,6 +26,7 @@ class _CursoFormState extends State<CursoForm> {
 
   final CursoModel curso;
   final _formKey = GlobalKey<FormState>();
+  final picker = ImagePicker();
 
   _CursoFormState(this.curso);
 
@@ -42,6 +47,16 @@ class _CursoFormState extends State<CursoForm> {
           runSpacing: 10,
           children: <Widget>[
             Observer(
+              builder: (_) => Visibility(
+                  visible: curso.logoImage != null,
+                  child: GestureDetector(
+                      onTap: () => updateImage(),
+                      child: Center(
+                        child: Container(
+                            height: 200, width: 200, child: curso.logoImage),
+                      ))),
+            ),
+            Observer(
                 builder: (_) => TextFormField(
                   validator: nomeValidator(),
                   onChanged: updateNome,
@@ -61,19 +76,48 @@ class _CursoFormState extends State<CursoForm> {
                   maxLines: 8,
                   maxLength: 1000,
                 )),
-            ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    _repository.save(curso);
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil("/", (_) => false);
-                  }
-                },
-                child: Text('Salvar'))
+            Center(
+              child: SizedBox(
+                width: double.infinity,
+                child: MaterialButton(
+                    color: AppWidget.color[400],
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)),
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        _repository.save(curso);
+                        Navigator.of(context)
+                            .pushNamedAndRemoveUntil("/", (_) => false);
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Icons.save),
+                          SizedBox(width: 10),
+                          Text(
+                            'Salvar',
+                            style: TextStyle(fontSize: 25.0),
+                          ),
+                        ],
+                      ),
+                    )),
+              ),
+            )
           ],
         ),
       ),
     );
+  }
+
+  void updateImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      curso.setLogoImage(Image.file(File(pickedFile.path)));
+    }
   }
 
   void updateNome(nome) {
