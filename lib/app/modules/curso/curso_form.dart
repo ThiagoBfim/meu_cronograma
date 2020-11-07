@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meu_cronograma/app/repositories/interfaces/curso_repository_interface.dart';
 
 import '../../app_widget.dart';
-import 'models/curso_model.dart';
+import '../../domain/curso_model.dart';
 
 class CursoForm extends StatefulWidget {
 

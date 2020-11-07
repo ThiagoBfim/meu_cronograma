@@ -11,7 +11,10 @@ class CursoModule extends ChildModule {
 
   @override
   List<ModularRouter> get routers => [
-        ModularRouter(Modular.initialRoute, child: (_, args) => CursoPage()),
+        ModularRouter(Modular.initialRoute,
+            child: (_, args) => CursoPage(
+                  curso: args.data,
+                )),
       ];
 
   static Inject get to => Inject<CursoModule>.of();

@@ -5,6 +5,7 @@ import 'package:meu_cronograma/app/shared/widgets/logo_widget.dart';
 
 import '../../app_module.dart';
 import 'home_controller.dart';
+import 'listagem_curso.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -26,7 +27,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               LogoWidget(),
-              Container(),
+              Expanded(child: ListagemCurso()),
               MaterialButton(
                 padding: const EdgeInsets.all(10.0),
                 color: Colors.black54,

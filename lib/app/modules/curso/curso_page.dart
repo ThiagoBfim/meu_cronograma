@@ -2,19 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../../domain/curso_model.dart';
 import 'curso_controller.dart';
 import 'curso_form.dart';
-import 'models/curso_model.dart';
 
 class CursoPage extends StatefulWidget {
 
+  final CursoModel curso;
+
+  const CursoPage({Key key, this.curso}) : super(key: key);
+
   @override
-  _CursoPageState createState() => _CursoPageState();
+  _CursoPageState createState() => _CursoPageState(this.curso?? CursoModel());
 }
 
 class _CursoPageState extends ModularState<CursoPage, CursoController> {
 
-  CursoModel curso = CursoModel();
+  final CursoModel curso;
+
+  _CursoPageState(this.curso);
 
   @override
   Widget build(BuildContext context) {

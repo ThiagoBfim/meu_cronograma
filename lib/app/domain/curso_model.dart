@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -31,4 +30,17 @@ abstract class BaseCursoModel with Store {
     this.logoImage = logoImage;
   }
 
+  BaseCursoModel(
+      {@required this.nome, @required this.descricao, this.logoImage});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is BaseCursoModel &&
+          runtimeType == other.runtimeType &&
+          nome == other.nome &&
+          descricao == other.descricao;
+
+  @override
+  int get hashCode => nome.hashCode ^ descricao.hashCode;
 }
