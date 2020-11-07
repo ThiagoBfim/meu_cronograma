@@ -19,6 +19,9 @@ abstract class _AtividadeControllerBase with Store {
   @action
   void saveAtividade(AtividadeModel atividadeModel) {
     _repository.saveAtividade(atividadeModel);
+    if (_atividades.contains(atividadeModel)) {
+      _atividades.remove(atividadeModel);
+    }
     _atividades.add(atividadeModel);
   }
 

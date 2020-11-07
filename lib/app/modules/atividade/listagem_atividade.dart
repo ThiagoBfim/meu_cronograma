@@ -6,6 +6,8 @@ import 'package:meu_cronograma/app/domain/atividade_model.dart';
 import 'package:meu_cronograma/app/domain/curso_model.dart';
 import 'package:meu_cronograma/app/modules/atividade/atividade_controller.dart';
 
+import 'dialog_atividade.dart';
+
 class ListagemAtividade extends StatelessWidget {
   final CursoModel curso;
   final AtividadeController _controller = Modular.get<AtividadeController>();
@@ -38,6 +40,15 @@ class ListagemAtividade extends StatelessWidget {
                   ),
                 ),
                 secondaryActions: <Widget>[
+                  IconSlideAction(
+                    caption: 'Editar',
+                    color: Colors.black45,
+                    icon: Icons.edit,
+                    onTap: () => showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            DialogAtividade(atividade: atividade)),
+                  ),
                   IconSlideAction(
                     caption: 'Deletar',
                     color: Colors.red,
