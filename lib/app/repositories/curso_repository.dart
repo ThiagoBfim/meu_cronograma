@@ -9,6 +9,8 @@ class CursoRepository implements ICursoRepository {
         nome: "Lógica de programação essencial",
         descricao:
             "Lógica de programação é a forma como o desenvolvedor entende a comunicação a fim de programar uma função de um programa. Faz uso de algoritmos, que são sequências de passos bem estabelecidos, como por exemplo, uma receita de bolo.",
+        link:
+            'https://web.digitalinnovation.one/acceleration/avanade-aceleracao-global-dev#',
         logoImage: Image.network(
             "https://hermes.digitalinnovation.one/courses/badge/88cb0f8d-dcdb-4c7d-a9c5-c56d021a23b1.png")),
     CursoModel(

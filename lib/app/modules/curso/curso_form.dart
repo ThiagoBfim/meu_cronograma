@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import '../../app_widget.dart';
 import '../../domain/curso_model.dart';
 
 class CursoForm extends StatefulWidget {
-
   final CursoModel curso;
 
   const CursoForm({Key key, this.curso}) : super(key: key);
@@ -58,24 +56,33 @@ class _CursoFormState extends State<CursoForm> {
             ),
             Observer(
                 builder: (_) => TextFormField(
-                  validator: nomeValidator(),
-                  onChanged: updateNome,
-                  initialValue: curso.nome,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), labelText: "Nome"),
-                  maxLength: 100,
-                )),
+                      validator: textValidator(),
+                      onChanged: updateNome,
+                      initialValue: curso.nome,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Nome"),
+                      maxLength: 100,
+                    )),
             Observer(
                 builder: (_) => TextFormField(
-                  validator: nomeValidator(),
-                  onChanged: updateDescricao,
-                  initialValue: curso.descricao,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), labelText: "Descrição"),
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 8,
-                  maxLength: 1000,
-                )),
+                      onChanged: updateLink,
+                      initialValue: curso.link,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Link Curso"),
+                      maxLength: 200,
+                    )),
+            Observer(
+                builder: (_) => TextFormField(
+                      validator: textValidator(),
+                      onChanged: updateDescricao,
+                      initialValue: curso.descricao,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Descrição"),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 8,
+                      maxLength: 1000,
+                    )),
             Center(
               child: SizedBox(
                 width: double.infinity,
@@ -124,11 +131,15 @@ class _CursoFormState extends State<CursoForm> {
     curso.setNome(nome);
   }
 
+  void updateLink(link) {
+    curso.setLink(link);
+  }
+
   void updateDescricao(descricao) {
     curso.setDescricao(descricao);
   }
 
-  FieldValidator nomeValidator() {
+  FieldValidator textValidator() {
     return MultiValidator([
       RequiredValidator(errorText: 'campo obrigatório'),
       MinLengthValidator(4, errorText: 'tamanho mínimo de 4 caracteres'),
