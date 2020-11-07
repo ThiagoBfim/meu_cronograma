@@ -13,7 +13,7 @@ class CursoPage extends StatefulWidget {
   const CursoPage({Key key, this.curso}) : super(key: key);
 
   @override
-  _CursoPageState createState() => _CursoPageState(this.curso?? CursoModel());
+  _CursoPageState createState() => _CursoPageState(this.curso?? CursoModel.empty());
 }
 
 class _CursoPageState extends ModularState<CursoPage, CursoController> {

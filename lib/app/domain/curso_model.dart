@@ -13,6 +13,9 @@ abstract class BaseCursoModel with Store {
   String descricao;
 
   @observable
+  String link;
+
+  @observable
   Image logoImage = Image.asset("assets/images/camera-empty.png");
 
   @action
@@ -26,12 +29,22 @@ abstract class BaseCursoModel with Store {
   }
 
   @action
+  setLink(String link) {
+    this.link = link;
+  }
+
+  @action
   setLogoImage(Image logoImage) {
     this.logoImage = logoImage;
   }
 
+  BaseCursoModel.empty();
+
   BaseCursoModel(
-      {@required this.nome, @required this.descricao, this.logoImage});
+      {@required this.nome,
+      @required this.descricao,
+      this.link,
+      this.logoImage});
 
   @override
   bool operator ==(Object other) =>

@@ -26,7 +26,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              LogoWidget(),
+              SafeArea(child: LogoWidget()),
               Expanded(child: ListagemCurso()),
               MaterialButton(
                 padding: const EdgeInsets.all(10.0),
