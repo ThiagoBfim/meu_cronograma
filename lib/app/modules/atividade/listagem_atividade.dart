@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:meu_cronograma/app/domain/atividade_model.dart';
+import 'package:meu_cronograma/app/domain/curso_model.dart';
+import 'package:meu_cronograma/app/modules/atividade/atividade_controller.dart';
+
+class ListagemAtividade extends StatelessWidget {
+  final CursoModel curso;
+  final AtividadeController _controller = Modular.get<AtividadeController>();
+
+  ListagemAtividade({Key key, this.curso}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Observer(
+      builder: (BuildContext context) {
+        var atividades = _controller.getAtividades(curso);
+        print(atividades);
+        return ListView.separated(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemBuilder: (builder, index) {
+              AtividadeModel atividade = atividades[index];
+              return Slidable(
+                actionPane: SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                child: Observer(
+                  builder: (BuildContext context) => CheckboxListTile(
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: Text(
+                      atividade.nome,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    value: atividade.feito,
+                    onChanged: atividade.setFeito,
+                  ),
+                ),
+                secondaryActions: <Widget>[
+                  IconSlideAction(
+                    caption: 'Deletar',
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () => _deleteAtividade(atividade),
+                  ),
+                ],
+              );
+            },
+            separatorBuilder: (ctx, index) => Divider(),
+            itemCount: atividades.length);
+      },
+    );
+  }
+
+  _deleteAtividade(AtividadeModel atividade) {
+    _controller.deleteAtividade(atividade);
+  }
+}

@@ -21,6 +21,7 @@ class ListagemCurso extends StatelessWidget {
             actionPane: SlidableDrawerActionPane(),
             actionExtentRatio: 0.25,
             child: ListTile(
+              onTap: () => _navigateToAtividades(curso, context),
               leading: CircleAvatar(
                 child: curso.logoImage,
               ),
@@ -61,5 +62,9 @@ class ListagemCurso extends StatelessWidget {
 
   _deleteCurso(CursoModel curso) {
     _repository.deleteCurso(curso);
+  }
+
+  _navigateToAtividades(CursoModel curso, BuildContext context) {
+    Navigator.of(context).pushNamed(AppModule.ATIVIDADES, arguments: curso);
   }
 }
