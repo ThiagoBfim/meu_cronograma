@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:meu_cronograma/app/app_module.dart';
 import 'package:meu_cronograma/app/domain/curso_model.dart';
 import 'package:meu_cronograma/app/modules/home/progress_list_bar.dart';
+import 'package:meu_cronograma/app/modules/home/web_view_curso.dart';
 import 'package:meu_cronograma/app/repositories/interfaces/atividade_repository_interface.dart';
 import 'package:meu_cronograma/app/repositories/interfaces/curso_repository_interface.dart';
 
@@ -24,6 +25,17 @@ class ListagemCurso extends StatelessWidget {
             actionPane: SlidableDrawerActionPane(),
             actionExtentRatio: 0.25,
             child: _buildListTile(curso, context),
+            actions: [
+              Visibility(
+                visible: curso.link != null,
+                child: IconSlideAction(
+                  caption: 'Acessar',
+                  color: Colors.yellow[600],
+                  icon: Icons.send,
+                  onTap: () => _navigateToWebView(curso.link, context),
+                ),
+              ),
+            ],
             secondaryActions: <Widget>[
               IconSlideAction(
                 caption: 'Editar',
@@ -74,6 +86,11 @@ class ListagemCurso extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  _navigateToWebView(String url, BuildContext context) {
+    return Navigator.of(context)
+        .push(new MaterialPageRoute(builder: (_) => WebViewCurso(url: url)));
   }
 
   _navigateToEdit(CursoModel curso, BuildContext context) {
