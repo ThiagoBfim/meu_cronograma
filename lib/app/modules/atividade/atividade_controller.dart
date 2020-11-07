@@ -37,4 +37,14 @@ abstract class _AtividadeControllerBase with Store {
     }
     return _atividades;
   }
+
+  double getAtividadesPercentConcluido(CursoModel curso){
+    var atividades = getAtividades(curso);
+    var qtdAtividadeConcluido =
+        atividades.where((element) => element.feito == true).length;
+    if (atividades == null) {
+      return 0;
+    }
+    return (qtdAtividadeConcluido / atividades.length).toDouble();
+  }
 }

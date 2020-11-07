@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:meu_cronograma/app/domain/atividade_model.dart';
 import 'package:meu_cronograma/app/domain/curso_model.dart';
 import 'package:meu_cronograma/app/modules/atividade/dialog_atividade.dart';
+import 'package:meu_cronograma/app/modules/atividade/progress_circle.dart';
 import 'package:meu_cronograma/app/shared/background_box_decoration.dart';
 import 'package:meu_cronograma/app/shared/widgets/logo_widget.dart';
 
@@ -42,7 +44,11 @@ class _AtividadePageState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              ListagemAtividade(curso: curso),
+              Observer(
+                  builder: (_) => ProgressCircle(
+                      percentConcluido:
+                          controller.getAtividadesPercentConcluido(curso))),
+              Expanded(child: ListagemAtividade(curso: curso)),
               MaterialButton(
                 padding: const EdgeInsets.all(10.0),
                 color: Colors.black54,
@@ -50,7 +56,8 @@ class _AtividadePageState
                     borderRadius: new BorderRadius.circular(30.0)),
                 onPressed: () => showDialog(
                     context: context,
-                    builder: (BuildContext context) => DialogAtividade(atividade: AtividadeModel.empty(curso: curso))),
+                    builder: (BuildContext context) => DialogAtividade(
+                        atividade: AtividadeModel.empty(curso: curso))),
                 child: Text(
                   'Adicionar nova atividade',
                   style: TextStyle(fontSize: 18, color: Colors.white),
@@ -64,5 +71,4 @@ class _AtividadePageState
       ),
     );
   }
-
 }
