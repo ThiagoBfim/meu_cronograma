@@ -6,13 +6,16 @@ import 'interfaces/atividade_repository_interface.dart';
 
 class AtividadeRepository implements IAtividadeRepository {
 
-  List<AtividadeModel> atividades = [];
+  List<AtividadeModel> atividades = [
+    AtividadeModel(nome: 'Conhecendo Widget', feito: true),
+    AtividadeModel(nome: 'Conhecendo Scaffold', feito: false),
+    AtividadeModel(nome: 'Conhecendo Navigator', feito: false)
+  ];
 
   @override
   void dispose() {
     //dispose will be called automatically
   }
-
 
   @override
   void deleteAtividade(AtividadeModel atividade) {
