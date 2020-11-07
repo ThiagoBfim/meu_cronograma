@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:meu_cronograma/app/domain/atividade_model.dart';
 import 'package:meu_cronograma/app/domain/curso_model.dart';
-import 'package:meu_cronograma/app/modules/atividade/atividade_form.dart';
+import 'package:meu_cronograma/app/modules/atividade/dialog_atividade.dart';
 import 'package:meu_cronograma/app/shared/background_box_decoration.dart';
 import 'package:meu_cronograma/app/shared/widgets/logo_widget.dart';
 
@@ -50,7 +50,7 @@ class _AtividadePageState
                     borderRadius: new BorderRadius.circular(30.0)),
                 onPressed: () => showDialog(
                     context: context,
-                    builder: (BuildContext context) => createDialog()),
+                    builder: (BuildContext context) => DialogAtividade(atividade: AtividadeModel.empty(curso: curso))),
                 child: Text(
                   'Adicionar nova atividade',
                   style: TextStyle(fontSize: 18, color: Colors.white),
@@ -65,31 +65,4 @@ class _AtividadePageState
     );
   }
 
-
-  createDialog() {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-      //this right here
-      child: Container(
-        height: 250,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  'Nova Atividade',
-                  style: TextStyle(fontSize: 25, color: Colors.red),
-                ),
-              ),
-              AtividadeForm(
-                atividade: AtividadeModel.empty(curso: curso),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
