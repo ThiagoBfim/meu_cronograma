@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:meu_cronograma/app/app_module.dart';
@@ -78,7 +79,9 @@ class ListagemCurso extends StatelessWidget {
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
-          ProgressListBar(percentConcluido: curso.percentConcluido)
+          Observer(
+              builder: (_) =>
+                  ProgressListBar(percentConcluido: curso.percentConcluido))
         ],
       ),
     );

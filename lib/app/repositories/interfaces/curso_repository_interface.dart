@@ -7,4 +7,6 @@ abstract class ICursoRepository implements Disposable {
   Future<List<CursoModel>> findAllCursos();
 
   void deleteCurso(CursoModel curso);
+
+  void updatePercentConcluido(int idCurso, double percentConcluido);
 }
