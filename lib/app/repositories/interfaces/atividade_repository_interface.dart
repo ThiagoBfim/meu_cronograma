@@ -4,9 +4,9 @@ import 'package:meu_cronograma/app/domain/curso_model.dart';
 
 abstract class IAtividadeRepository implements Disposable {
 
-  void saveAtividade(AtividadeModel atividade);
+  Future<int> saveAtividade(AtividadeModel atividade);
 
-  List<AtividadeModel> findAllAtividadesByCurso(CursoModel curso);
+  Future<List<AtividadeModel>> findAllAtividadesByCurso(CursoModel curso);
 
   void deleteAtividade(AtividadeModel atividade);
 }

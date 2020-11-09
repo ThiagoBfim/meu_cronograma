@@ -5,20 +5,17 @@ import 'package:meu_cronograma/app/app_module.dart';
 import 'package:meu_cronograma/app/domain/curso_model.dart';
 import 'package:meu_cronograma/app/modules/home/progress_list_bar.dart';
 import 'package:meu_cronograma/app/modules/home/web_view_curso.dart';
-import 'package:meu_cronograma/app/repositories/interfaces/atividade_repository_interface.dart';
 import 'package:meu_cronograma/app/repositories/interfaces/curso_repository_interface.dart';
 
 class ListagemCurso extends StatelessWidget {
   final ICursoRepository _repository = Modular.get<ICursoRepository>();
-  final IAtividadeRepository _atividadeRepository =
-      Modular.get<IAtividadeRepository>();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<CursoModel>>(
       future: _repository.findAllCursos(),
       builder: (context, snapshot) {
-        if(!snapshot.hasData){
+        if (!snapshot.hasData) {
           return Container();
         }
         return ListView.separated(
@@ -64,10 +61,6 @@ class ListagemCurso extends StatelessWidget {
   }
 
   ListTile _buildListTile(CursoModel curso, BuildContext context) {
-    var atividades = _atividadeRepository.findAllAtividadesByCurso(curso);
-    var qtdAtividadeConcluido =
-        atividades.where((element) => element.feito == true).length;
-
     return ListTile(
       onTap: () => _navigateToAtividades(curso, context),
       leading: CircleAvatar(
@@ -85,11 +78,7 @@ class ListagemCurso extends StatelessWidget {
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
           ),
-          atividades.length > 0
-              ? ProgressListBar(
-                  percentConcluido:
-                      (qtdAtividadeConcluido / atividades.length).toDouble())
-              : Container()
+          ProgressListBar(percentConcluido: curso.percentConcluido)
         ],
       ),
     );

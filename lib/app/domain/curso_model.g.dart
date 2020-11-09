@@ -54,6 +54,21 @@ mixin _$CursoModel on BaseCursoModel, Store {
     });
   }
 
+  final _$percentConcluidoAtom = Atom(name: 'BaseCursoModel.percentConcluido');
+
+  @override
+  double get percentConcluido {
+    _$percentConcluidoAtom.reportRead();
+    return super.percentConcluido;
+  }
+
+  @override
+  set percentConcluido(double value) {
+    _$percentConcluidoAtom.reportWrite(value, super.percentConcluido, () {
+      super.percentConcluido = value;
+    });
+  }
+
   final _$logoImageAtom = Atom(name: 'BaseCursoModel.logoImage');
 
   @override
@@ -117,11 +132,23 @@ mixin _$CursoModel on BaseCursoModel, Store {
   }
 
   @override
+  dynamic setPercentConcluido(double percentConcluido) {
+    final _$actionInfo = _$BaseCursoModelActionController.startAction(
+        name: 'BaseCursoModel.setPercentConcluido');
+    try {
+      return super.setPercentConcluido(percentConcluido);
+    } finally {
+      _$BaseCursoModelActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 nome: ${nome},
 descricao: ${descricao},
 link: ${link},
+percentConcluido: ${percentConcluido},
 logoImage: ${logoImage}
     ''';
   }

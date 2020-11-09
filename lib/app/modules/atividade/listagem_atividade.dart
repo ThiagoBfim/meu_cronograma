@@ -18,50 +18,61 @@ class ListagemAtividade extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(
       builder: (BuildContext context) {
-        var atividades = _controller.getAtividades(curso);
-        print(atividades);
-        return ListView.separated(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemBuilder: (builder, index) {
-              AtividadeModel atividade = atividades[index];
-              return Slidable(
-                actionPane: SlidableDrawerActionPane(),
-                actionExtentRatio: 0.25,
-                child: Observer(
-                  builder: (BuildContext context) => CheckboxListTile(
+        return FutureBuilder<List<AtividadeModel>>(
+            future: _controller.getAtividades(curso),
+            builder: (_, atividades) {
+              if (!atividades.hasData) {
+                return Container();
+              }
+              return _buildList(atividades.data, context);
+            });
+      },
+    );
+  }
+
+  ListView _buildList(List<AtividadeModel> atividades, BuildContext context) {
+    return ListView.separated(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemBuilder: (builder, index) {
+          AtividadeModel atividade = atividades[index];
+          return Slidable(
+            actionPane: SlidableDrawerActionPane(),
+            actionExtentRatio: 0.25,
+            child: Observer(
+              builder: (BuildContext context) =>
+                  CheckboxListTile(
                     controlAffinity: ListTileControlAffinity.leading,
                     title: Text(
                       atividade.nome,
                       style: TextStyle(color: Colors.white),
                     ),
                     value: atividade.feito,
-                    onChanged: atividade.setFeito,
+                    onChanged: (feito) => _controller.updateAtividadeStatus(atividade, feito),
                   ),
-                ),
-                secondaryActions: <Widget>[
-                  IconSlideAction(
-                    caption: 'Editar',
-                    color: Colors.black45,
-                    icon: Icons.edit,
-                    onTap: () => showDialog(
+            ),
+            secondaryActions: <Widget>[
+              IconSlideAction(
+                caption: 'Editar',
+                color: Colors.black45,
+                icon: Icons.edit,
+                onTap: () =>
+                    showDialog(
                         context: context,
                         builder: (BuildContext context) =>
                             DialogAtividade(atividade: atividade)),
-                  ),
-                  IconSlideAction(
-                    caption: 'Deletar',
-                    color: Colors.red,
-                    icon: Icons.delete,
-                    onTap: () => _deleteAtividade(atividade),
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (ctx, index) => Divider(),
-            itemCount: atividades.length);
-      },
-    );
+              ),
+              IconSlideAction(
+                caption: 'Deletar',
+                color: Colors.red,
+                icon: Icons.delete,
+                onTap: () => _deleteAtividade(atividade),
+              ),
+            ],
+          );
+        },
+        separatorBuilder: (ctx, index) => Divider(),
+        itemCount: atividades.length);
   }
 
   _deleteAtividade(AtividadeModel atividade) {

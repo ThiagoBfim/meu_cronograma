@@ -10,41 +10,60 @@ part 'atividade_controller.g.dart';
 class AtividadeController = _AtividadeControllerBase with _$AtividadeController;
 
 abstract class _AtividadeControllerBase with Store {
-
   final IAtividadeRepository _repository = Modular.get<IAtividadeRepository>();
 
   @observable
   List<AtividadeModel> _atividades = ObservableList<AtividadeModel>.of([]);
 
+  @observable
+  double percentConcluido = 0.0;
+
   @action
-  void saveAtividade(AtividadeModel atividadeModel) {
-    _repository.saveAtividade(atividadeModel);
+  setPercentConcluido(double percentConcluido) async {
+    this.percentConcluido = percentConcluido;
+  }
+
+  @action
+  saveAtividade(AtividadeModel atividadeModel) async {
+    int id = await _repository.saveAtividade(atividadeModel);
+    atividadeModel.id = id;
     if (_atividades.contains(atividadeModel)) {
       _atividades.remove(atividadeModel);
     }
     _atividades.add(atividadeModel);
+    updatePercentAtividadeConcluido();
   }
 
   @action
   deleteAtividade(AtividadeModel atividade) {
     _repository.deleteAtividade(atividade);
     _atividades.remove(atividade);
+    updatePercentAtividadeConcluido();
   }
 
-  List<AtividadeModel> getAtividades(CursoModel curso) {
+  Future<List<AtividadeModel>> getAtividades(CursoModel curso) async {
     if (_atividades.isEmpty) {
-      return _repository.findAllAtividadesByCurso(curso);
+      _atividades = ObservableList<AtividadeModel>.of(
+          await _repository.findAllAtividadesByCurso(curso));
+      updatePercentAtividadeConcluido();
     }
+    _atividades.sort((a, b) => a.id.compareTo(b.id));
     return _atividades;
   }
 
-  double getAtividadesPercentConcluido(CursoModel curso){
-    var atividades = getAtividades(curso);
-    var qtdAtividadeConcluido =
-        atividades.where((element) => element.feito == true).length;
-    if (atividades == null) {
-      return 0;
+  updateAtividadeStatus(AtividadeModel atividade, bool feito) {
+    atividade.setFeito(feito);
+    saveAtividade(atividade);
+  }
+
+  updatePercentAtividadeConcluido() {
+    if (_atividades.isEmpty) {
+      return setPercentConcluido(0);
+    } else {
+      var qtdAtividadeConcluido =
+          _atividades.where((element) => element.feito == true).length;
+      setPercentConcluido(
+          (qtdAtividadeConcluido / _atividades.length).toDouble());
     }
-    return (qtdAtividadeConcluido / atividades.length).toDouble();
   }
 }

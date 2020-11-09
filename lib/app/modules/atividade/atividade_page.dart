@@ -46,8 +46,7 @@ class _AtividadePageState
             children: <Widget>[
               Observer(
                   builder: (_) => ProgressCircle(
-                      percentConcluido:
-                          controller.getAtividadesPercentConcluido(curso))),
+                      percentConcluido: controller.percentConcluido)),
               Expanded(child: ListagemAtividade(curso: curso)),
               MaterialButton(
                 padding: const EdgeInsets.all(10.0),
@@ -57,7 +56,7 @@ class _AtividadePageState
                 onPressed: () => showDialog(
                     context: context,
                     builder: (BuildContext context) => DialogAtividade(
-                        atividade: AtividadeModel.empty(curso: curso))),
+                        atividade: AtividadeModel.empty(idCurso: curso.id))),
                 child: Text(
                   'Adicionar nova atividade',
                   style: TextStyle(fontSize: 18, color: Colors.white),

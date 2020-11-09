@@ -34,19 +34,42 @@ mixin _$AtividadeController on _AtividadeControllerBase, Store {
     });
   }
 
-  final _$_AtividadeControllerBaseActionController =
-      ActionController(name: '_AtividadeControllerBase');
+  final _$percentConcluidoAtom =
+      Atom(name: '_AtividadeControllerBase.percentConcluido');
 
   @override
-  void saveAtividade(AtividadeModel atividadeModel) {
-    final _$actionInfo = _$_AtividadeControllerBaseActionController.startAction(
-        name: '_AtividadeControllerBase.saveAtividade');
-    try {
-      return super.saveAtividade(atividadeModel);
-    } finally {
-      _$_AtividadeControllerBaseActionController.endAction(_$actionInfo);
-    }
+  double get percentConcluido {
+    _$percentConcluidoAtom.reportRead();
+    return super.percentConcluido;
   }
+
+  @override
+  set percentConcluido(double value) {
+    _$percentConcluidoAtom.reportWrite(value, super.percentConcluido, () {
+      super.percentConcluido = value;
+    });
+  }
+
+  final _$setPercentConcluidoAsyncAction =
+      AsyncAction('_AtividadeControllerBase.setPercentConcluido');
+
+  @override
+  Future setPercentConcluido(double percentConcluido) {
+    return _$setPercentConcluidoAsyncAction
+        .run(() => super.setPercentConcluido(percentConcluido));
+  }
+
+  final _$saveAtividadeAsyncAction =
+      AsyncAction('_AtividadeControllerBase.saveAtividade');
+
+  @override
+  Future saveAtividade(AtividadeModel atividadeModel) {
+    return _$saveAtividadeAsyncAction
+        .run(() => super.saveAtividade(atividadeModel));
+  }
+
+  final _$_AtividadeControllerBaseActionController =
+      ActionController(name: '_AtividadeControllerBase');
 
   @override
   dynamic deleteAtividade(AtividadeModel atividade) {
@@ -62,7 +85,7 @@ mixin _$AtividadeController on _AtividadeControllerBase, Store {
   @override
   String toString() {
     return '''
-
+percentConcluido: ${percentConcluido}
     ''';
   }
 }
