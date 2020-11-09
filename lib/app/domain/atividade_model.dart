@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
-import 'curso_model.dart';
-
 part 'atividade_model.g.dart';
 
 class AtividadeModel = BaseAtividadeModel with _$AtividadeModel;
@@ -17,7 +15,7 @@ abstract class BaseAtividadeModel with Store {
   @observable
   bool feito = false;
 
-  CursoModel curso;
+  int idCurso;
 
   @action
   setNome(String nome) {
@@ -29,10 +27,25 @@ abstract class BaseAtividadeModel with Store {
     this.feito = feito;
   }
 
-  BaseAtividadeModel.empty({@required this.curso});
+  BaseAtividadeModel.empty({@required this.idCurso});
 
   BaseAtividadeModel(
-      {@required this.nome, @required this.curso, this.feito = false});
+      {@required this.nome, @required this.idCurso, this.feito = false});
+
+  BaseAtividadeModel.fromDb(Map<String, dynamic> map)
+      : id = map['id'],
+        nome = map['nome'],
+        feito = map['feito'] == 'true',
+        idCurso = map['idCurso'];
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'nome': nome,
+      'feito': feito.toString(),
+      'idCurso': idCurso,
+    };
+  }
 
   @override
   bool operator ==(Object other) =>

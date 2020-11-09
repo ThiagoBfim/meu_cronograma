@@ -17,7 +17,9 @@ class AtividadeForm extends StatefulWidget {
   _AtividadeFormState createState() => _AtividadeFormState(this.atividade);
 }
 
-class _AtividadeFormState extends ModularState<AtividadeForm, AtividadeController> {
+class _AtividadeFormState extends State<AtividadeForm> {
+
+  final AtividadeController controller = Modular.get<AtividadeController>();
 
   final AtividadeModel atividade;
   final _formKey = GlobalKey<FormState>();

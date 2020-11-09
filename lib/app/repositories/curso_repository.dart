@@ -45,7 +45,8 @@ class CursoRepository implements ICursoRepository {
           where: 'id = ?', whereArgs: [curso.id]);
       cursos.remove(curso);
     } else {
-      db.insert(Constants.CURSO_TABLE, curso.toMap());
+      int id = await db.insert(Constants.CURSO_TABLE, curso.toMap());
+      curso.id = id;
     }
     cursos.add(curso);
   }

@@ -20,7 +20,7 @@ abstract class BaseCursoModel with Store {
   String link;
 
   @observable
-  double percentConcluido;
+  double percentConcluido = 0.0;
 
   @observable
   Image logoImage = Image.asset("assets/images/camera-empty.png");
@@ -59,7 +59,7 @@ abstract class BaseCursoModel with Store {
         nome = map['nome'],
         descricao = map['descricao'],
         link = map['link'],
-        percentConcluido = map['todasAtividades'] == null
+        percentConcluido = map['atividadesFeitas'] == null
             ? 0
             : map['atividadesFeitas'] / map['todasAtividades'],
         imagePath = map['imagePath'],
