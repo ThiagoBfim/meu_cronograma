@@ -8,7 +8,6 @@ part 'curso_model.g.dart';
 class CursoModel = BaseCursoModel with _$CursoModel;
 
 abstract class BaseCursoModel with Store {
-
   int id;
 
   @observable
@@ -19,6 +18,9 @@ abstract class BaseCursoModel with Store {
 
   @observable
   String link;
+
+  @observable
+  double percentConcluido;
 
   @observable
   Image logoImage = Image.asset("assets/images/camera-empty.png");
@@ -45,6 +47,11 @@ abstract class BaseCursoModel with Store {
     this.logoImage = logoImage;
   }
 
+  @action
+  setPercentConcluido(double percentConcluido) {
+    this.percentConcluido = percentConcluido;
+  }
+
   BaseCursoModel.empty();
 
   BaseCursoModel.fromDb(Map<String, dynamic> map)
@@ -52,14 +59,19 @@ abstract class BaseCursoModel with Store {
         nome = map['nome'],
         descricao = map['descricao'],
         link = map['link'],
+        percentConcluido = map['todasAtividades'] == null
+            ? 0
+            : map['atividadesFeitas'] / map['todasAtividades'],
         imagePath = map['imagePath'],
         logoImage = map['imagePath'] != null
             ? Image.file(File(map['imagePath']))
             : Image.asset("assets/images/camera-empty.png");
 
   BaseCursoModel(
-      {@required this.nome,
+      {@required this.id,
+      @required this.nome,
       @required this.descricao,
+      this.percentConcluido,
       this.link,
       this.imagePath,
       this.logoImage});

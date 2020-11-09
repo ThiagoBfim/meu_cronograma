@@ -1,4 +1,5 @@
 import 'package:meu_cronograma/app/domain/curso_model.dart';
+import 'package:meu_cronograma/app/repositories/constants.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common/sqlite_api.dart';
@@ -9,21 +10,22 @@ class CursoRepository implements ICursoRepository {
 
   Future<Database> getDatabase() async {
     final databasePath = await getDatabasesPath();
-    final path = join(databasePath, "meu_cronograma.db");
+    final path = join(databasePath, Constants.DATABASE_NAME);
     return openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
-          await db.execute('CREATE TABLE IF NOT EXISTS TB_CURSO '
+          await db.execute('CREATE TABLE IF NOT EXISTS ${Constants.CURSO_TABLE} '
               ' (id INTEGER PRIMARY KEY AUTOINCREMENT,'
               ' nome TEXT, '
               ' descricao TEXT,'
               ' link TEXT,'
               ' imagePath TEXT'
               ')');
-          await db.execute('CREATE TABLE IF NOT EXISTS TB_ATIVIDADE '
+          await db
+              .execute('CREATE TABLE IF NOT EXISTS ${Constants.ATIVIDADE_TABLE} '
               '(id INTEGER PRIMARY KEY AUTOINCREMENT,'
               ' nome TEXT,'
               ' feito TEXT,'
-              ' curso INTEGER'
+              ' idCurso INTEGER'
               ')');
         });
   }
@@ -39,20 +41,13 @@ class CursoRepository implements ICursoRepository {
   void save(CursoModel curso) async {
     final db = await getDatabase();
     if (cursos.contains(curso)) {
-      db.update("TB_CURSO", curso.toMap(),
+      db.update(Constants.CURSO_TABLE, curso.toMap(),
           where: 'id = ?', whereArgs: [curso.id]);
       cursos.remove(curso);
     } else {
-      db.insert("TB_CURSO", curso.toMap());
+      db.insert(Constants.CURSO_TABLE, curso.toMap());
     }
     cursos.add(curso);
-  }
-
-  @override
-  void deleteCurso(CursoModel curso) async {
-    cursos.remove(curso);
-    final db = await getDatabase();
-    db.delete("TB_CURSO", where: 'id = ?', whereArgs: [curso.id]);
   }
 
   @override
@@ -61,12 +56,31 @@ class CursoRepository implements ICursoRepository {
       cursos = await getCursosDb();
       return cursos;
     }
+    cursos.sort((a, b) => a.id.compareTo(b.id));
     return cursos;
+  }
+
+  @override
+  void deleteCurso(CursoModel curso) async {
+    cursos.remove(curso);
+    final db = await getDatabase();
+    db.delete(Constants.CURSO_TABLE, where: 'id = ?', whereArgs: [curso.id]);
   }
 
   Future<List<CursoModel>> getCursosDb() async {
     final db = await getDatabase();
-    List<Map> list = await db.rawQuery("SELECT * FROM TB_CURSO ");
+    List<Map> list = await db.rawQuery(
+        "SELECT curso.*, atividadeFeito.atividadesFeitas as atividadesFeitas, atividade.atividades as todasAtividades"
+            " FROM ${Constants.CURSO_TABLE} curso "
+            " LEFT JOIN (SELECT atv.idCurso, count(atv.id) as atividades FROM ${Constants.ATIVIDADE_TABLE} atv "
+            " GROUP BY atv.idCurso"
+            " )"
+            " atividade on curso.id = atividade.idCurso "
+            " LEFT JOIN (SELECT atv.idCurso, count(atv.id) as atividadesFeitas FROM ${Constants.ATIVIDADE_TABLE} atv "
+            " WHERE atv.feito = 'true' "
+            " GROUP BY atv.idCurso"
+            " )"
+            " atividadeFeito on curso.id = atividadeFeito.idCurso ");
     return list.map((e) => CursoModel.fromDb(e)).toList();
   }
 }
