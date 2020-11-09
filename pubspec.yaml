@@ -45,6 +45,8 @@ dependencies:
   flutter_slidable: 0.5.7
   webview_flutter: 1.0.5
   percent_indicator: 2.1.8
+  sqflite:
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

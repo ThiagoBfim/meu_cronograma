@@ -123,6 +123,7 @@ class _CursoFormState extends State<CursoForm> {
   void updateImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
+      curso.imagePath = pickedFile.path;
       curso.setLogoImage(Image.file(File(pickedFile.path)));
     }
   }

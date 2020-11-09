@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
@@ -6,6 +8,9 @@ part 'curso_model.g.dart';
 class CursoModel = BaseCursoModel with _$CursoModel;
 
 abstract class BaseCursoModel with Store {
+
+  int id;
+
   @observable
   String nome;
 
@@ -17,6 +22,8 @@ abstract class BaseCursoModel with Store {
 
   @observable
   Image logoImage = Image.asset("assets/images/camera-empty.png");
+
+  String imagePath;
 
   @action
   setDescricao(String descricao) {
@@ -40,20 +47,40 @@ abstract class BaseCursoModel with Store {
 
   BaseCursoModel.empty();
 
+  BaseCursoModel.fromDb(Map<String, dynamic> map)
+      : id = map['id'],
+        nome = map['nome'],
+        descricao = map['descricao'],
+        link = map['link'],
+        imagePath = map['imagePath'],
+        logoImage = map['imagePath'] != null
+            ? Image.file(File(map['imagePath']))
+            : Image.asset("assets/images/camera-empty.png");
+
   BaseCursoModel(
       {@required this.nome,
       @required this.descricao,
       this.link,
+      this.imagePath,
       this.logoImage});
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'nome': nome,
+      'descricao': descricao,
+      'link': link,
+      'imagePath': imagePath,
+    };
+  }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is BaseCursoModel &&
           runtimeType == other.runtimeType &&
-          nome == other.nome &&
-          descricao == other.descricao;
+          id == other.id;
 
   @override
-  int get hashCode => nome.hashCode ^ descricao.hashCode;
+  int get hashCode => id.hashCode;
 }

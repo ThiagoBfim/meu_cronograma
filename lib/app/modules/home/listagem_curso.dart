@@ -15,45 +15,52 @@ class ListagemCurso extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cursos = _repository.findAllCursos();
-    return ListView.separated(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemBuilder: (builder, index) {
-          CursoModel curso = cursos[index];
-          return Slidable(
-            actionPane: SlidableDrawerActionPane(),
-            actionExtentRatio: 0.25,
-            child: _buildListTile(curso, context),
-            actions: [
-              Visibility(
-                visible: curso.link != null,
-                child: IconSlideAction(
-                  caption: 'Acessar',
-                  color: Colors.yellow[600],
-                  icon: Icons.send,
-                  onTap: () => _navigateToWebView(curso.link, context),
-                ),
-              ),
-            ],
-            secondaryActions: <Widget>[
-              IconSlideAction(
-                caption: 'Editar',
-                color: Colors.black45,
-                icon: Icons.edit,
-                onTap: () => _navigateToEdit(curso, context),
-              ),
-              IconSlideAction(
-                caption: 'Deletar',
-                color: Colors.red,
-                icon: Icons.delete,
-                onTap: () => _deleteCurso(curso),
-              ),
-            ],
-          );
-        },
-        separatorBuilder: (ctx, index) => Divider(),
-        itemCount: cursos.length);
+    return FutureBuilder<List<CursoModel>>(
+      future: _repository.findAllCursos(),
+      builder: (context, snapshot) {
+        if(!snapshot.hasData){
+          return Container();
+        }
+        return ListView.separated(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemBuilder: (builder, index) {
+              CursoModel curso = snapshot.data[index];
+              return Slidable(
+                actionPane: SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                child: _buildListTile(curso, context),
+                actions: [
+                  Visibility(
+                    visible: curso.link != null,
+                    child: IconSlideAction(
+                      caption: 'Acessar',
+                      color: Colors.yellow[600],
+                      icon: Icons.send,
+                      onTap: () => _navigateToWebView(curso.link, context),
+                    ),
+                  ),
+                ],
+                secondaryActions: <Widget>[
+                  IconSlideAction(
+                    caption: 'Editar',
+                    color: Colors.black45,
+                    icon: Icons.edit,
+                    onTap: () => _navigateToEdit(curso, context),
+                  ),
+                  IconSlideAction(
+                    caption: 'Deletar',
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () => _deleteCurso(curso),
+                  ),
+                ],
+              );
+            },
+            separatorBuilder: (ctx, index) => Divider(),
+            itemCount: snapshot.data.length);
+      },
+    );
   }
 
   ListTile _buildListTile(CursoModel curso, BuildContext context) {

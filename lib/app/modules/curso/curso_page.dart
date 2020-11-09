@@ -28,7 +28,7 @@ class _CursoPageState extends ModularState<CursoPage, CursoController> {
       appBar: AppBar(
           title: Observer(builder: (_) => Text(curso.nome ?? ''))
       ),
-      body: CursoForm(curso: curso),
+      body: SingleChildScrollView(child: CursoForm(curso: curso)),
     );
   }
 }
