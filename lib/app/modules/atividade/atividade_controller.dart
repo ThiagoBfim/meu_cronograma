@@ -14,7 +14,7 @@ abstract class _AtividadeControllerBase with Store {
   final IAtividadeRepository _repository = Modular.get<IAtividadeRepository>();
 
   @observable
-  List<AtividadeModel> _atividades = ObservableList<AtividadeModel>.of([AtividadeModel(nome: 'Conhecendo Widget')]);
+  List<AtividadeModel> _atividades = ObservableList<AtividadeModel>.of([]);
 
   @action
   void saveAtividade(AtividadeModel atividadeModel) {

@@ -39,6 +39,21 @@ mixin _$CursoModel on BaseCursoModel, Store {
     });
   }
 
+  final _$linkAtom = Atom(name: 'BaseCursoModel.link');
+
+  @override
+  String get link {
+    _$linkAtom.reportRead();
+    return super.link;
+  }
+
+  @override
+  set link(String value) {
+    _$linkAtom.reportWrite(value, super.link, () {
+      super.link = value;
+    });
+  }
+
   final _$logoImageAtom = Atom(name: 'BaseCursoModel.logoImage');
 
   @override
@@ -80,6 +95,17 @@ mixin _$CursoModel on BaseCursoModel, Store {
   }
 
   @override
+  dynamic setLink(String link) {
+    final _$actionInfo = _$BaseCursoModelActionController.startAction(
+        name: 'BaseCursoModel.setLink');
+    try {
+      return super.setLink(link);
+    } finally {
+      _$BaseCursoModelActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setLogoImage(Image logoImage) {
     final _$actionInfo = _$BaseCursoModelActionController.startAction(
         name: 'BaseCursoModel.setLogoImage');
@@ -95,6 +121,7 @@ mixin _$CursoModel on BaseCursoModel, Store {
     return '''
 nome: ${nome},
 descricao: ${descricao},
+link: ${link},
 logoImage: ${logoImage}
     ''';
   }

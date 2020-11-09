@@ -8,6 +8,9 @@ part 'atividade_model.g.dart';
 class AtividadeModel = BaseAtividadeModel with _$AtividadeModel;
 
 abstract class BaseAtividadeModel with Store {
+
+  int id;
+
   @observable
   String nome;
 
@@ -34,10 +37,10 @@ abstract class BaseAtividadeModel with Store {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is BaseAtividadeModel &&
-              runtimeType == other.runtimeType &&
-              nome == other.nome;
+      other is BaseAtividadeModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
 
   @override
-  int get hashCode => nome.hashCode;
+  int get hashCode => id.hashCode;
 }
