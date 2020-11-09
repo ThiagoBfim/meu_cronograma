@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:meu_cronograma/app/domain/atividade_model.dart';
 import 'package:meu_cronograma/app/domain/curso_model.dart';
 import 'package:meu_cronograma/app/repositories/interfaces/atividade_repository_interface.dart';
+import 'package:meu_cronograma/app/repositories/interfaces/curso_repository_interface.dart';
 import 'package:mobx/mobx.dart';
 
 part 'atividade_controller.g.dart';
@@ -11,6 +12,7 @@ class AtividadeController = _AtividadeControllerBase with _$AtividadeController;
 
 abstract class _AtividadeControllerBase with Store {
   final IAtividadeRepository _repository = Modular.get<IAtividadeRepository>();
+  final ICursoRepository _cursoRepository = Modular.get<ICursoRepository>();
 
   @observable
   List<AtividadeModel> _atividades = ObservableList<AtividadeModel>.of([]);
@@ -31,7 +33,10 @@ abstract class _AtividadeControllerBase with Store {
       _atividades.remove(atividadeModel);
     }
     _atividades.add(atividadeModel);
+
     updatePercentAtividadeConcluido();
+    _cursoRepository.updatePercentConcluido(atividadeModel.idCurso, percentConcluido);
+
   }
 
   @action
@@ -39,6 +44,8 @@ abstract class _AtividadeControllerBase with Store {
     _repository.deleteAtividade(atividade);
     _atividades.remove(atividade);
     updatePercentAtividadeConcluido();
+    _cursoRepository.updatePercentConcluido(atividade.idCurso, percentConcluido);
+
   }
 
   Future<List<AtividadeModel>> getAtividades(CursoModel curso) async {

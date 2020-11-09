@@ -84,4 +84,10 @@ class CursoRepository implements ICursoRepository {
             " atividadeFeito on curso.id = atividadeFeito.idCurso ");
     return list.map((e) => CursoModel.fromDb(e)).toList();
   }
+
+  @override
+  void updatePercentConcluido(int idCurso, double percentConcluido) {
+    var curso = cursos.where((element) => element.id == idCurso).first;
+    curso.setPercentConcluido(percentConcluido);
+  }
 }
