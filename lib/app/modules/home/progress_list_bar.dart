@@ -16,7 +16,7 @@ class ProgressListBar extends StatelessWidget {
         lineHeight: 20.0,
         animationDuration: 2000,
         percent: percentConcluido,
-        center: Text("${(percentConcluido * 100).toStringAsFixed(2)}%"),
+        center: Text("${(percentConcluido * 100).toStringAsFixed(2)}%", style: TextStyle(color: Colors.black),),
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: Colors.yellow,
       ),
