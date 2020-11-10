@@ -8,12 +8,12 @@ Projeto com Flutter para criação de um app com seguinte proposito:
 ## Aplicativo
 
 <div align='center'>
-    <img src="assets/readme/tela1.png" width="200">
-    <img src="assets/readme/tela2.png" width="200">
-    <img src="assets/readme/tela3.png" width="200">
-    <img src="assets/readme/tela4.png" width="200">
-    <img src="assets/readme/tela5.png" width="200">
-    <img src="assets/readme/tela6.png" width="200">
+    <img src="assets/readme/tela1.jpeg" width="200">
+    <img src="assets/readme/tela2.jpeg" width="200">
+    <img src="assets/readme/tela3.jpeg" width="200">
+    <img src="assets/readme/tela4.jpeg" width="200">
+    <img src="assets/readme/tela5.jpeg" width="200">
+    <img src="assets/readme/tela6.jpeg" width="200">
 </div>
 
 ## Inicializar o projeto
