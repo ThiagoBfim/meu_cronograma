@@ -1,11 +1,11 @@
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:meu_cronograma/app/app_module.dart';
 import 'package:meu_cronograma/app/modules/home/home_controller.dart';
 import 'package:meu_cronograma/app/modules/home/home_module.dart';
 
 void main() {
-  initModule(HomeModule());
+  initModules([AppModule(), HomeModule()]);
   HomeController home;
 
   setUp(() {
@@ -18,9 +18,9 @@ void main() {
       });
 
       test("Set Value", () {
-        expect(home.value, equals(0));
-        home.increment();
-        expect(home.value, equals(1));
+        expect(home.filter, isNull);
+        home.setFilter("filter");
+        expect(home.filter, equals("filter"));
       });
   });
 }
