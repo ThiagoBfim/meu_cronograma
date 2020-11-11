@@ -8,7 +8,6 @@ import 'home_controller.dart';
 import 'listagem_curso.dart';
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -27,6 +26,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               SafeArea(child: LogoWidget()),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: _buildSearchFilter(),
+              ),
               Expanded(child: ListagemCurso()),
               MaterialButton(
                 padding: const EdgeInsets.all(10.0),
@@ -47,5 +50,35 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
         ),
       ),
     );
+  }
+
+  Widget _buildSearchFilter() {
+    return TextField(
+      style: TextStyle(color: Colors.white, fontSize: 17.0),
+      decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white, width: 2.0),
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(30.0),
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white, width: 2.0),
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(30.0),
+            ),
+          ),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.white,
+          ),
+          hintStyle: TextStyle(color: Colors.white),
+          hintText: 'Pesquise aqui'),
+      onChanged: (filter) => _updateCursosList(filter),
+    );
+  }
+
+  _updateCursosList(String filter) {
+    controller.setFilter(filter);
   }
 }
