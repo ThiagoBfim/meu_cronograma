@@ -8,7 +8,12 @@ import 'package:meu_cronograma/app/modules/home/progress_list_bar.dart';
 import 'package:meu_cronograma/app/modules/home/web_view_curso.dart';
 import 'package:meu_cronograma/app/repositories/interfaces/curso_repository_interface.dart';
 
-class ListagemCurso extends StatelessWidget {
+class ListagemCurso extends StatefulWidget {
+  @override
+  _ListagemCursoState createState() => _ListagemCursoState();
+}
+
+class _ListagemCursoState extends State<ListagemCurso> {
   final ICursoRepository _repository = Modular.get<ICursoRepository>();
 
   @override
@@ -97,7 +102,9 @@ class ListagemCurso extends StatelessWidget {
   }
 
   _deleteCurso(CursoModel curso) {
-    _repository.deleteCurso(curso);
+    setState(() {
+      _repository.deleteCurso(curso);
+    });
   }
 
   _navigateToAtividades(CursoModel curso, BuildContext context) {
