@@ -43,6 +43,7 @@ Para inicializar o projeto basta realizar os seguintes passos:
 * Text, Button, Image
 * Dialog
 * Alterar Logo, Splash Screen e nome.
+* Tests
 * [Progress Indicator](https://pub.dev/packages/percent_indicator)
 * [ImagePicker](https://pub.dev/packages/image_picker)
 * [Slidable](https://pub.dev/packages/flutter_slidable)
