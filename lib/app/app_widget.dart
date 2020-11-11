@@ -23,7 +23,7 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: Modular.navigatorKey,
-      title: 'Flutter Slidy',
+      title: 'Meu Cronograma',
       theme: ThemeData(
         textSelectionColor: Colors.black12,
         appBarTheme: AppBarTheme(color: Colors.black87),
